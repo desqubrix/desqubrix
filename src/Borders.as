@@ -49,6 +49,8 @@ package
 		private function checkPlayerOnBorders():Boolean
 		{
 			for (var i:int = 0; i < _borders.length - 1; i++) {
+				_borderA = i;
+				_borderB = i + 1;
 				//CHECK IF IT IS ON A VERTEX
 				if (_playerX == _borders[i].x && _playerY == _borders[i].y) return true;
 				
@@ -80,6 +82,11 @@ package
 			//############ OUTSIDE OF THE LOOP VALUE OF i IS NOW 7###############
 			//############### CHECKING LAST AND FIRST VERTEX ####################
 			
+			//UPDATING BORDERS
+			_borderA = i;
+			_borderB = 0;
+			
+			//IS IT ON THE LAST VERTEX?
 			if (_playerX == _borders[i].x && _playerY == _borders[i].y) return true;
 			
 				//IS IT A VERTICAL BORDER	//IS THE DOT ON THE SAME AXIS?
@@ -118,6 +125,17 @@ package
 		{
 			return _borders;
 		}
+		
+		public function get borderA():int
+		{
+			return _borderA;
+		}
+		
+		public function get borderB():int
+		{
+			return _borderB;
+		}
+		
 	}
 
 }
