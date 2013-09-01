@@ -25,6 +25,9 @@ package
 		private var directions:Vector.<Point>;
 		private var borders:Borders;
 		
+		private var borderA:int;
+		private var borderB:int;
+		
 		private var debugText:Text;
 		
 		public function Player(x:int, y:int) 
@@ -42,6 +45,8 @@ package
 			v = new Point();
 			borders = new Borders();
 			borders.init();
+			
+			borderA = borderB = 0;
 			
 			debugText = new Text("", 10, 50);
 		}
@@ -86,6 +91,10 @@ package
 			shittyCheckInput()
 			
 			borders.update(x, y);
+			
+			borderA = borders.borderA;
+			borderB = borders.borderB;
+			
 			debugText.text = borders.isPLayerOnBorders.toString() + "\n" + new Point(x, y).toString();
 			super.update();
 		}
@@ -113,6 +122,9 @@ package
 			}
 			Draw.line(vBorder[i].x, vBorder[i].y, vBorder[0].x, vBorder[0].y);
 			Draw.text(i.toString(), vBorder[i].x, vBorder[i].y)
+			
+			Draw.circle(vBorder[borderA].x, vBorder[borderA].y, 1);
+			Draw.circle(vBorder[borderB].x, vBorder[borderB].y, 1);
 		}
 	}
 
