@@ -25,9 +25,6 @@ package
 		private var directions:Vector.<Point>;
 		private var borders:Borders;
 		
-		private var borderA:int;
-		private var borderB:int;
-		
 		private var debugText:Text;
 		
 		public function Player(x:int, y:int) 
@@ -35,67 +32,75 @@ package
 			img = new Image(new BitmapData(10, 10, false));
 			img.angle = 45;
 			img.centerOrigin();
-			
-			x = FP.screen.width - 10;
-			y = 515;
-			
-			super(x, y, img);
 			layer = -150;
 			
+			x = 350;
+			y = 350;
+			
+			super(x, y, img);
+			
+			
 			v = new Point();
+			
 			borders = new Borders();
 			borders.init();
-			
-			borderA = borderB = 0;
-			
-			debugText = new Text("", 10, 50);
 		}
 		
 		override public function added():void 
 		{
+			debugText = new Text("", 50, 200);
 			world.addGraphic(debugText, -200);
 		}
 		private function shittyCheckInput():void 
 		{
-			if (Input.check(Key.UP)) {
-				y -= 1;
-			}
-			if (Input.check(Key.DOWN)) {
-				y += 1;
-			}
+			if (Input.check(Key.UP)) y -= speed;
+			if (Input.check(Key.DOWN)) y += speed;
+			if (Input.check(Key.RIGHT))x += speed;
+			if (Input.check(Key.LEFT))x -= speed;
 			
-			if (Input.check(Key.RIGHT)) {
-				x += 1;
-			}
-			if (Input.check(Key.LEFT)) {
-				x -= 1;
-			}
+			if (Input.pressed(Key.W))y -= 1;
+			if (Input.pressed(Key.S))y += 1;
+			if (Input.pressed(Key.D))x += 1;
+			if (Input.pressed(Key.A))x -= 1;
 			
-			if (Input.pressed(Key.W)) {
-				y -= 1;
-			}
-			if (Input.pressed(Key.S)) {
-				y += 1;
-			}
-			
-			if (Input.pressed(Key.D)) {
-				x += 1;
-			}
-			if (Input.pressed(Key.A)) {
-				x -= 1;
+			if (Input.pressed(Key.DIGIT_1)) {
+				x = borders.vBorders[0].x;
+				y = borders.vBorders[0].y;
 			}
 		}
 		
 		override public function update():void 
 		{
-			shittyCheckInput()
+			
 			
 			borders.update(x, y);
 			
-			borderA = borders.borderA;
-			borderB = borders.borderB;
+			if (Input.check(Key.CONTROL)) speed = 10;
+			else speed = 1;
 			
-			debugText.text = borders.isPLayerOnBorders.toString() + "\n" + new Point(x, y).toString();
+			//ARE WE DRAWING?
+			if (Input.check(Key.SPACE)) {
+				//CAN MOVE "FREELY"
+				shittyCheckInput()
+			}
+			else {
+				if (!borders.isPLayerOnBorders) {
+					
+				}
+				else {
+					if (Input.check(Key.UP) 	&& borders.canMoveUp) 		y -= speed;
+					if (Input.check(Key.DOWN)	&& borders.canMoveDown) 	y += speed;
+					if (Input.check(Key.RIGHT) 	&& borders.canMoveRight)	x += speed;
+					if (Input.check(Key.LEFT) 	&& borders.canMoveLeft)		x -= speed;
+				}
+			}
+			
+			
+			debugText.text = "position: " + new Point(x, y).toString()
+				+ "\non Vertex: " + borders.isPlayerOnVertex.toString()
+				+ "\non Border:" + borders.isPLayerOnBorders.toString() 
+				+ "\nborderA: " + borders.borderA.toString()
+				+ "\nborderB: " + borders.borderB.toString();
 			super.update();
 		}
 		
@@ -109,11 +114,13 @@ package
 			Draw.line(10, FP.screen.height - 10, FP.screen.width - 10, FP.screen.height - 10);
 			Draw.line(FP.screen.width - 10, FP.screen.height - 10, FP.screen.width - 10, 10);
 			
-			drawBorders();
+			//if(Input.check(Key.T)) drawBorders();
+			//drawBorders();
 		}
 		
 		private function drawBorders():void
 		{
+			
 			var vBorder:Vector.<Point> = borders.vBorders;
 			for (var i:int = 0; i < vBorder.length - 1; i++)
 			{
@@ -123,8 +130,8 @@ package
 			Draw.line(vBorder[i].x, vBorder[i].y, vBorder[0].x, vBorder[0].y);
 			Draw.text(i.toString(), vBorder[i].x, vBorder[i].y)
 			
-			Draw.circle(vBorder[borderA].x, vBorder[borderA].y, 1);
-			Draw.circle(vBorder[borderB].x, vBorder[borderB].y, 1);
+			Draw.circle(vBorder[borders.borderA].x, vBorder[borders.borderA].y, 3);
+			Draw.circle(vBorder[borders.borderB].x, vBorder[borders.borderB].y, 3);
 		}
 	}
 

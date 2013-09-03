@@ -15,7 +15,7 @@ package
 		{
 			super(700, 525, 60, false);
 			FP.screen.color = 0x123f456;
-			//FP.console.enable();
+			FP.console.enable();
 		}
 		
 		override public function init():void 
