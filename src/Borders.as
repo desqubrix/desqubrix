@@ -64,10 +64,10 @@ package
 			_playerX = x;
 			_playerY = y;
 			checkPlayerOnBorders();
-			updatePossibleMovements();
+			updatePossibleMovementsOnBorders();
 		}
 		
-		private function updatePossibleMovements():void
+		private function updatePossibleMovementsOnBorders():void
 		{
 			_canMoveDown = _canMoveLeft = _canMoveRight = _canMoveUp = false;
 			if (_isPlayerOnVertex) {
@@ -133,6 +133,8 @@ package
 			}
 		}
 		
+		// STORES INDEXES FOR PLAYER POSITION ON _border
+		// STORES BOOLEANS FOR PLAYER COLLISIONS
 		private function checkPlayerOnBorders():void
 		{
 			for (var i:int = 0; i < _borders.length - 1; i++) {

@@ -22,7 +22,7 @@ package
 		private var hInput:int;
 		private var vInput:int;
 		
-		private var directions:Vector.<Point>;
+		private var drawing:Drawing;
 		private var borders:Borders;
 		
 		private var debugText:Text;
@@ -44,6 +44,9 @@ package
 			
 			borders = new Borders();
 			borders.init();
+			
+			drawing = new Drawing();
+			drawing.init(borders);
 		}
 		
 		override public function added():void 
@@ -74,18 +77,22 @@ package
 			
 			
 			borders.update(x, y);
+			drawing.update(x, y);
 			
 			if (Input.check(Key.CONTROL)) speed = 10;
 			else speed = 1;
 			
+			
+			
 			//ARE WE DRAWING?
 			if (Input.check(Key.SPACE)) {
 				//CAN MOVE "FREELY"
+				drawing.isDrawing = true;
 				shittyCheckInput()
 			}
 			else {
 				if (!borders.isPLayerOnBorders) {
-					
+					//SHOULD STOP TRACING BACK ITS PATH TO THE BORDER
 				}
 				else {
 					if (Input.check(Key.UP) 	&& borders.canMoveUp) 		y -= speed;
@@ -115,7 +122,7 @@ package
 			Draw.line(FP.screen.width - 10, FP.screen.height - 10, FP.screen.width - 10, 10);
 			
 			//if(Input.check(Key.T)) drawBorders();
-			//drawBorders();
+			drawBorders();
 		}
 		
 		private function drawBorders():void
