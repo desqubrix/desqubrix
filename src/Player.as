@@ -25,6 +25,8 @@ package
 		private var drawing:Drawing;
 		private var borders:Borders;
 		
+		private var gameWorld:GameWorld;
+		
 		private var debugText:Text;
 		
 		public function Player(x:int, y:int) 
@@ -32,7 +34,7 @@ package
 			img = new Image(new BitmapData(10, 10, false));
 			img.angle = 45;
 			img.centerOrigin();
-			layer = -150;
+			layer = GC.LAYER_PLAYER;
 			
 			x = 350;
 			y = 350;
@@ -43,7 +45,6 @@ package
 			v = new Point();
 			
 			borders = new Borders();
-			borders.init();
 			
 			drawing = new Drawing();
 			drawing.init(borders);
@@ -53,6 +54,8 @@ package
 		{
 			debugText = new Text("", 50, 200);
 			world.addGraphic(debugText, -200);
+			gameWorld = FP.world as GameWorld;
+			borders.drawBorders();
 		}
 		private function shittyCheckInput():void 
 		{
@@ -82,7 +85,12 @@ package
 			if (Input.check(Key.CONTROL)) speed = 10;
 			else speed = 1;
 			
-			
+			if (Input.pressed(Key.R)) {
+				borders.drawBorders();
+				var t:Array = new Array();
+				FP.world.getAll(t)
+				trace(t);
+			}
 			
 			//ARE WE DRAWING?
 			if (Input.check(Key.SPACE)) {
@@ -121,25 +129,8 @@ package
 			Draw.line(10, FP.screen.height - 10, FP.screen.width - 10, FP.screen.height - 10);
 			Draw.line(FP.screen.width - 10, FP.screen.height - 10, FP.screen.width - 10, 10);
 			
-			//if(Input.check(Key.T)) drawBorders();
-			drawBorders();
 		}
 		
-		private function drawBorders():void
-		{
-			
-			var vBorder:Vector.<Point> = borders.vBorders;
-			for (var i:int = 0; i < vBorder.length - 1; i++)
-			{
-				Draw.line(vBorder[i].x, vBorder[i].y, vBorder[i + 1].x, vBorder[i + 1].y);
-				Draw.text(i.toString(), vBorder[i].x, vBorder[i].y)
-			}
-			Draw.line(vBorder[i].x, vBorder[i].y, vBorder[0].x, vBorder[0].y);
-			Draw.text(i.toString(), vBorder[i].x, vBorder[i].y)
-			
-			Draw.circle(vBorder[borders.borderA].x, vBorder[borders.borderA].y, 3);
-			Draw.circle(vBorder[borders.borderB].x, vBorder[borders.borderB].y, 3);
-		}
 	}
 
 }

@@ -1,9 +1,10 @@
 package 
 {
-	import net.flashpunk.Engine;
 	import net.flashpunk.FP;
-	import net.flashpunk.utils.Input;
+	import net.flashpunk.Engine;
 	import net.flashpunk.utils.Key;
+	import net.flashpunk.utils.Input;
+
 	
 	/**
 	 * ...

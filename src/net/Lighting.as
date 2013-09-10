@@ -5,9 +5,10 @@ package net
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import net.flashpunk.FP;
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
-	import net.flashpunk.FP;
+	
 	
 	public class Lighting extends Entity 
 	{
@@ -22,14 +23,9 @@ package net
 		
 		public function Lighting() 
 		{
-			layer = -100;
-			
+			layer = GC.LAYER_LIGHTING;
 			canvas = new BitmapData(FP.width, FP.height, false, 0xffffff);
 			size = new Rectangle(0, 0, FP.width, FP.height);
-			
-			//var someRect:RemovedSurface = new RemovedSurface(10, 10, 20, 20);
-			//lights.push(someRect);
-			
 			light = new Image(new BitmapData(100, 150, false, 0x000000));
 		}
 		

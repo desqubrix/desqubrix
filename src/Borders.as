@@ -1,7 +1,13 @@
 package  
 {
+	
 	import flash.geom.Point;
+	import flash.display.BitmapData;
+	import flash.geom.Rectangle;
+	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Image;
+	import net.flashpunk.utils.Draw;
 	/**
 	 * ...
 	 * @author noogberserk
@@ -22,6 +28,9 @@ package
 		private var _canMoveRight:Boolean;
 		private var _canMoveUp:Boolean;
 		private var _canMoveDown:Boolean;
+		
+		private var canvas:BitmapData;
+		private var canvasEntity:Entity;
 		
 		public function Borders() 
 		{
@@ -57,6 +66,10 @@ package
 			_borderB = 0;
 			_isPlayerOnBorders = false;
 			_isPlayerOnVertex = false;
+			
+			canvas = new BitmapData(FP.width, FP.height, true, 0xff0000);
+			trace("some")
+			FP.world.addGraphic(new Image(canvas), -200)//GC.LAYER_BORDERS);
 		}
 		
 		public function update(x:Number, y:Number):void
@@ -65,6 +78,29 @@ package
 			_playerY = y;
 			checkPlayerOnBorders();
 			updatePossibleMovementsOnBorders();
+			
+		}
+		
+		public function drawBorders():void
+		{
+			if (canvasEntity) FP.world.remove(canvasEntity);
+			canvas.fillRect(new Rectangle(0, 0, FP.width, FP.height), 0x000000);
+			Draw.setTarget(canvas);
+			
+			for (var i:int = 0; i < _borders.length - 1; i++) 
+			{
+				Draw.line(_borders[i].x, _borders[i].y, _borders[i + 1].x, _borders[i + 1].y);
+				Draw.text(i.toString(), _borders[i].x, _borders[i].y);
+			}
+			Draw.line(_borders[i].x, _borders[i].y, _borders[0].x, _borders[0].y);
+			Draw.text(i.toString(), _borders[i].x, _borders[i].y);
+			
+			Draw.circle(_borders[_borderA].x, _borders[_borderA].y, 3);
+			Draw.circle(_borders[_borderB].x, _borders[_borderB].y, 3);
+			
+			canvasEntity = FP.world.addGraphic(new Image(canvas), -150);
+			
+			Draw.resetTarget();
 		}
 		
 		private function updatePossibleMovementsOnBorders():void
