@@ -96,7 +96,7 @@ package
 			if (Input.check(Key.SPACE)) {
 				//CAN MOVE "FREELY"
 				drawing.isDrawing = true;
-				shittyCheckInput()
+				movement();
 			}
 			else {
 				if (!borders.isPLayerOnBorders) {
@@ -119,6 +119,26 @@ package
 			super.update();
 		}
 		
+		private function movement():void
+		{
+			if (Input.check(Key.UP) 	&& drawing.canMoveUp) {
+				y -= speed;
+				return;
+			}
+			if (Input.check(Key.DOWN)	&& drawing.canMoveDown) {
+				y += speed;
+				return;
+			}
+			if (Input.check(Key.RIGHT) 	&& drawing.canMoveRight) {
+				x += speed;
+				return;
+			}
+			if (Input.check(Key.LEFT) 	&& drawing.canMoveLeft) {
+				x -= speed;
+				return;
+			}
+		}
+		
 		override public function render():void 
 		{
 			super.render();
@@ -128,7 +148,6 @@ package
 			Draw.line(10, 10, 10, FP.screen.height - 10);
 			Draw.line(10, FP.screen.height - 10, FP.screen.width - 10, FP.screen.height - 10);
 			Draw.line(FP.screen.width - 10, FP.screen.height - 10, FP.screen.width - 10, 10);
-			
 		}
 		
 	}

@@ -12,7 +12,7 @@ package
 	 */
 	public class Background extends Entity 
 	{
-		[Embed(source="ASSETS/135005106195.jpg")]
+		[Embed(source="ASSETS/background_placeholder.jpg")]
 		private const BG_IMAGE:Class;
 		
 		public var img:Image;

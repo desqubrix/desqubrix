@@ -1,13 +1,12 @@
 package  
 {
-	
-	import flash.geom.Point;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
-	import net.flashpunk.Entity;
+	import flash.geom.Point;
 	import net.flashpunk.FP;
-	import net.flashpunk.graphics.Image;
+	import net.flashpunk.Entity;
 	import net.flashpunk.utils.Draw;
+	import net.flashpunk.graphics.Image;
 	/**
 	 * ...
 	 * @author noogberserk
@@ -68,7 +67,7 @@ package
 			_isPlayerOnVertex = false;
 			
 			canvas = new BitmapData(FP.width, FP.height, true, 0xff0000);
-			trace("some")
+			trace("Borders.as Initialized")
 			FP.world.addGraphic(new Image(canvas), -200)//GC.LAYER_BORDERS);
 		}
 		
@@ -78,8 +77,8 @@ package
 			_playerY = y;
 			checkPlayerOnBorders();
 			updatePossibleMovementsOnBorders();
-			
 		}
+		
 		
 		public function drawBorders():void
 		{
