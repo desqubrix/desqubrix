@@ -10,7 +10,6 @@ package
 		private var _nodes:Vector.<Point>;
 		private var _vBorder:Vector.<Point>;
 		private var _borders:Borders;
-		private var _isDrawing:Boolean;
 		
 		private var _playerX:int;
 		private var _playerY:int;
@@ -22,6 +21,8 @@ package
 		
 		private var _borderA:int;
 		private var _borderB:int;
+		
+		private var _isDrawing:Boolean;
 		
 		public function Drawing() 
 		{
@@ -78,14 +79,12 @@ package
 				_canMoveDown = _canMoveLeft = _canMoveRight = _canMoveUp = true;
 			}
 		}
+
 		
-		public function set isDrawing(value:Boolean):void 	{ _isDrawing = value }
-		public function get isDrawing():Boolean 			{ return _isDrawing }
-		
-		public function get canMoveLeft():Boolean 	{ return _canMoveLeft }
-		public function get canMoveRight():Boolean 	{ return _canMoveRight }
-		public function get canMoveDown():Boolean 	{ return _canMoveDown }
-		public function get canMoveUp():Boolean 	{ return _canMoveUp }
+		public function get canMoveLeft():Boolean 	{ return _canMoveLeft 	}
+		public function get canMoveRight():Boolean 	{ return _canMoveRight 	}
+		public function get canMoveDown():Boolean 	{ return _canMoveDown 	}
+		public function get canMoveUp():Boolean 	{ return _canMoveUp 	}
 	}
 
 }

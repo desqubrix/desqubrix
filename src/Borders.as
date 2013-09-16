@@ -67,8 +67,8 @@ package
 			_isPlayerOnVertex = false;
 			
 			canvas = new BitmapData(FP.width, FP.height, true, 0xff0000);
+			FP.world.addGraphic(new Image(canvas), GC.LAYER_BORDERS);
 			trace("Borders.as Initialized")
-			FP.world.addGraphic(new Image(canvas), -200)//GC.LAYER_BORDERS);
 		}
 		
 		public function update(x:Number, y:Number):void

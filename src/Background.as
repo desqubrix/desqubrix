@@ -1,9 +1,14 @@
 package  
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.Shape;
+	import flash.geom.Point;
 	import net.Lighting;
 	import net.flashpunk.FP;
 	import net.flashpunk.Entity;
 	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
 	import net.flashpunk.graphics.Image;
 	
 	/**
@@ -24,8 +29,13 @@ package
 		private var mouseX:int;
 		private var mouseY:int;
 		
-		private var gameWorld:GameWorld;
+		private var overlay:Overlay;
+		
+		
 		private var lighting:Lighting;
+		
+		private var points:Vector.<Point>;
+		private var someIMG:Image;
 		
 		public function Background() 
 		{
@@ -34,14 +44,15 @@ package
 			
 			layer = GC.LAYER_BG;
 			
-			lighting = new Lighting();
+			overlay = new Overlay();
+			
+			//TEST STUFF
+			points = new Vector.<Point>();
 		}
 		
 		override public function added():void 
 		{
-			gameWorld = FP.world as GameWorld;
-			gameWorld.add(lighting);
-			super.added();
+			FP.world.add(overlay);
 		}
 		
 		override public function update():void 
@@ -49,9 +60,33 @@ package
 			mouseX = Input.mouseX;
 			mouseY = Input.mouseY;
 			
-			eraseSurface();
+			//eraseSurface();
+			//polygonTest();
 			
+			
+			
+			trace(points);
 			super.update();
+		}
+		
+		private function polygonTest():void
+		{
+			if (Input.mousePressed) 
+			{
+				points.push(new Point(mouseX, mouseY));
+			}
+			
+			if (Input.check(Key.R)) {
+				if (points.length > 2) {
+					someIMG = Image.createPolygon(points);
+					FP.world.addGraphic(someIMG, -500);
+				}
+				points = new Vector.<Point>();
+			}
+			
+			
+			
+			
 		}
 		
 		private function eraseSurface():void

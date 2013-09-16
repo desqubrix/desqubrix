@@ -171,6 +171,25 @@ package net.flashpunk.graphics
 			return image;
 		}
 		
+		public static function createPolygon(points:Vector.<Point>):Image
+		{
+			FP.sprite.graphics.clear();
+			FP.sprite.graphics.beginFill(0xFFFFFF);
+			FP.sprite.graphics.moveTo(points[0].x, points[0].y);
+			for (var i:int = 1; i < points.length; i++)
+			{
+				FP.sprite.graphics.lineTo(points[i].x, points[i].y);
+			}
+			FP.sprite.graphics.lineTo(points[0].x, points[0].y);
+			var data:BitmapData = new BitmapData(FP.sprite.width, FP.sprite.height, true, 0);
+			data.draw(FP.sprite);
+			
+			var image:Image = new Image(data);
+			
+			return image;
+			
+		}
+		
 		/**
 		 * Updates the image buffer.
 		 */

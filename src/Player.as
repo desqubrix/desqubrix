@@ -77,8 +77,6 @@ package
 		
 		override public function update():void 
 		{
-			
-			
 			borders.update(x, y);
 			drawing.update(x, y);
 			
@@ -95,7 +93,6 @@ package
 			//ARE WE DRAWING?
 			if (Input.check(Key.SPACE)) {
 				//CAN MOVE "FREELY"
-				drawing.isDrawing = true;
 				movement();
 			}
 			else {
