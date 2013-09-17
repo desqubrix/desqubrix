@@ -31,12 +31,6 @@ package
 		
 		private var overlay:Overlay;
 		
-		
-		private var lighting:Lighting;
-		
-		private var points:Vector.<Point>;
-		private var someIMG:Image;
-		
 		public function Background() 
 		{
 			img = new Image(BG_IMAGE);
@@ -45,9 +39,6 @@ package
 			layer = GC.LAYER_BG;
 			
 			overlay = new Overlay();
-			
-			//TEST STUFF
-			points = new Vector.<Point>();
 		}
 		
 		override public function added():void 
@@ -59,35 +50,9 @@ package
 		{
 			mouseX = Input.mouseX;
 			mouseY = Input.mouseY;
-			
-			//eraseSurface();
-			//polygonTest();
-			
-			
-			
-			trace(points);
 			super.update();
 		}
 		
-		private function polygonTest():void
-		{
-			if (Input.mousePressed) 
-			{
-				points.push(new Point(mouseX, mouseY));
-			}
-			
-			if (Input.check(Key.R)) {
-				if (points.length > 2) {
-					someIMG = Image.createPolygon(points);
-					FP.world.addGraphic(someIMG, -500);
-				}
-				points = new Vector.<Point>();
-			}
-			
-			
-			
-			
-		}
 		
 		private function eraseSurface():void
 		{
@@ -115,7 +80,7 @@ package
 				}
 				
 				
-				if (x1 != x2 && y1 != y2) lighting.add(new RemovedSurface(x1, y1, x2, y2));
+				//if (x1 != x2 && y1 != y2) lighting.add(new RemovedSurface(x1, y1, x2, y2));
 				x1 = y1 = x2 = y2 = 0;
 				
 			}

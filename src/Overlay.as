@@ -51,24 +51,16 @@ package
 			points.push(new Point(350, 350));
 			points.push(new Point(350, FP.screen.height - 10));
 			points.push(new Point(10, FP.screen.height - 10));
-			/*points.push(new Point());
-			points.push(new Point(10, 10));
-			points.push(new Point(15, 10));
-			points.push(new Point(15, 20));
-			points.push(new Point(20, 20));
-			points.push(new Point(20, 800));
-			points.push(new Point(150, 80));
-			points.push(new Point(15, 20));
-			points.push(new Point());*/
 		}
 		
 		override public function render():void 
 		{
-			canvas.fillRect(size, 0xffffff);
+			canvas.fillRect(size, 0xFFFFFF);
+			canvas.fillRect(new Rectangle(10, 10, FP.width - 20, FP.height - 20), 0x000000);
 			
 			FP.sprite.graphics.clear();
-			FP.sprite.graphics.beginFill(0x000000);
-			//FP.sprite.graphics.moveTo(points[0].x, points[0].y);
+			FP.sprite.graphics.beginFill(0xFFFFFF);
+			FP.sprite.graphics.moveTo(points[0].x, points[0].y);
 			
 			for (var i:int = 1; i < points.length; i++)
 			{
