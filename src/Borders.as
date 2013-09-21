@@ -17,6 +17,9 @@ package
 		private var _borderA:int;
 		private var _borderB:int;
 		
+		private var _lastBorderA:int;
+		private var _lastBorderB:int;
+		
 		private var _isPlayerOnBorders:Boolean;
 		private var _isPlayerOnVertex:Boolean;
 		
@@ -43,7 +46,7 @@ package
 			_borders.push(new Point(10, 90));
 			_borders.push(new Point(50, 90));
 			_borders.push(new Point(50, 70));
-			_borders.push(new Point(130, 70));
+			/*_borders.push(new Point(130, 70));
 			_borders.push(new Point(130, 130));
 			_borders.push(new Point(110, 130));
 			_borders.push(new Point(110, 150));
@@ -53,8 +56,8 @@ package
 			_borders.push(new Point(110, 30));
 			_borders.push(new Point(420, 30));
 			_borders.push(new Point(420, 200));
-			_borders.push(new Point(450, 200));
-			_borders.push(new Point(450, 30));
+			_borders.push(new Point(450, 200));*/
+			_borders.push(new Point(50, 30));
 			_borders.push(new Point(490, 30));
 			_borders.push(new Point(490, 350));
 			_borders.push(new Point(350, 350));
@@ -75,6 +78,13 @@ package
 		{
 			_playerX = x;
 			_playerY = y;
+			
+			if (_isPlayerOnBorders) {
+				_lastBorderA = _borderA;
+				_lastBorderB = _borderB;
+			}
+			
+			
 			checkPlayerOnBorders();
 			updatePossibleMovementsOnBorders();
 		}
@@ -88,10 +98,10 @@ package
 			
 			for (var i:int = 0; i < _borders.length - 1; i++) 
 			{
-				Draw.line(_borders[i].x, _borders[i].y, _borders[i + 1].x, _borders[i + 1].y);
+				Draw.line(_borders[i].x, _borders[i].y, _borders[i + 1].x, _borders[i + 1].y, 0x00FF00);
 				Draw.text(i.toString(), _borders[i].x, _borders[i].y);
 			}
-			Draw.line(_borders[i].x, _borders[i].y, _borders[0].x, _borders[0].y);
+			Draw.line(_borders[i].x, _borders[i].y, _borders[0].x, _borders[0].y, 0x00FF00);
 			Draw.text(i.toString(), _borders[i].x, _borders[i].y);
 			
 			Draw.circle(_borders[_borderA].x, _borders[_borderA].y, 3);
@@ -281,9 +291,12 @@ package
 		public function get isPlayerOnVertex():Boolean { return _isPlayerOnVertex }
 		
 		public function get vBorders():Vector.<Point> { return _borders }
+		public function set vBorders(v:Vector.<Point>):void { _borders = v }
 		
 		public function get borderA():int { return _borderA }
 		public function get borderB():int {	return _borderB }
+		public function get lastBorderA():int { return _lastBorderA }
+		public function get lastBorderB():int {	return _lastBorderB}
 		
 		public function get canMoveLeft():Boolean 	{ return _canMoveLeft }
 		public function get canMoveRight():Boolean 	{ return _canMoveRight }

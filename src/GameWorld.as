@@ -15,28 +15,34 @@ package
 	 */
 	public class GameWorld extends World 
 	{
-		private var background:Background;
-		private var player:Player;
+		public static var id:GameWorld;
 		
-		private var debugTxt:Text;
+		public var player:Player;
+		public var borders:Borders;
+		public var line:Line;
+		public var background:Background;
+		public var overlay:Overlay;
 		
 		public function GameWorld() 
 		{
-			background = new Background();
 			player = new Player(10, 30);
+			borders = new Borders();
+			line = new Line(borders);
+			background = new Background();
+			overlay = new Overlay(borders);
 			
-			add(background);
+			id = this;
+			
 			add(player);
-			
-			debugTxt = new Text("WOLOLO!", 10, 10);
-			//addGraphic(debugTxt, -120);
+			add(background);
+			add(overlay);
 		}
 		
-		
-		private function refreshText():void 
+		override public function update():void 
 		{
-			/*debugTxt.text = "x1: " + x1.toString() + "\ny1: " + y1.toString() + 
-						  "\nx2: " + x2.toString() + "\ny2: " + y2.toString();*/
+			borders.update(player.x, player.y);
+			line.update(player.x, player.y);
+			super.update();
 		}
 	}
 

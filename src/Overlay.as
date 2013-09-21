@@ -17,40 +17,15 @@ package
 		private var size:Rectangle;
 		
 		private var colorTransform:ColorTransform = new ColorTransform(1, 1, 1, 1);
-		private var points:Vector.<Point>;
 		
-		public function Overlay() 
+		private var _borders:Borders;
+		
+		public function Overlay(borders:Borders) 
 		{
 			layer  = GC.LAYER_LIGHTING;
 			canvas = new BitmapData(FP.width, FP.height, false, 0xffffff);
 			size   = new Rectangle(0, 0, FP.width, FP.height);
-			points = new Vector.<Point>();
-			
-			init();
-		}
-		
-		private function init():void
-		{
-			points.push(new Point(10, 90));
-			points.push(new Point(50, 90));
-			points.push(new Point(50, 70));
-			points.push(new Point(130, 70));
-			points.push(new Point(130, 130));
-			points.push(new Point(110, 130));
-			points.push(new Point(110, 150));
-			points.push(new Point(170, 150));
-			points.push(new Point(170, 50));
-			points.push(new Point(110, 50));
-			points.push(new Point(110, 30));
-			points.push(new Point(420, 30));
-			points.push(new Point(420, 200));
-			points.push(new Point(450, 200));
-			points.push(new Point(450, 30));
-			points.push(new Point(490, 30));
-			points.push(new Point(490, 350));
-			points.push(new Point(350, 350));
-			points.push(new Point(350, FP.screen.height - 10));
-			points.push(new Point(10, FP.screen.height - 10));
+			_borders = borders;
 		}
 		
 		override public function render():void 
@@ -60,25 +35,19 @@ package
 			
 			FP.sprite.graphics.clear();
 			FP.sprite.graphics.beginFill(0xFFFFFF);
-			FP.sprite.graphics.moveTo(points[0].x, points[0].y);
+			FP.sprite.graphics.moveTo(_borders.vBorders[0].x, _borders.vBorders[0].y);
 			
-			for (var i:int = 1; i < points.length; i++)
+			for (var i:int = 1; i < _borders.vBorders.length; i++)
 			{
-				FP.sprite.graphics.lineTo(points[i].x, points[i].y);
+				FP.sprite.graphics.lineTo(_borders.vBorders[i].x, _borders.vBorders[i].y);
 			}
-			FP.sprite.graphics.lineTo(points[0].x, points[0].y);
+			FP.sprite.graphics.lineTo(_borders.vBorders[0].x, _borders.vBorders[0].y);
 			
 			canvas.draw(FP.sprite);
 			
-			/*for (var i:int = 0; i < lights.length; i++) 
-			{
-				lights[i].graphic.render(canvas, new Point(lights[i].x1, lights[i].y1), FP.camera);
-			}
-			*/
 			FP.buffer.draw(canvas, null, colorTransform, BlendMode.SUBTRACT, null, false);
 			super.render();
 		}
-		
 	}
 
 }

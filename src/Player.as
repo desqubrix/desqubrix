@@ -19,13 +19,12 @@ package
 		private var img:Image;
 		private var speed:int = 1;
 		private var v:Point;
-		private var hInput:int;
-		private var vInput:int;
 		
-		private var drawing:Drawing;
+		private var line:Line;
 		private var borders:Borders;
 		
-		private var gameWorld:GameWorld;
+		public var beginStepX:int;
+		public var beginStepY:int;
 		
 		private var debugText:Text;
 		
@@ -41,44 +40,23 @@ package
 			
 			super(x, y, img);
 			
-			
 			v = new Point();
-			
-			borders = new Borders();
-			
-			drawing = new Drawing();
-			drawing.init(borders);
 		}
 		
 		override public function added():void 
 		{
+			borders = 	GameWorld.id.borders;
+			line    = 	GameWorld.id.line;
+			
 			debugText = new Text("", 50, 200);
 			world.addGraphic(debugText, -200);
-			gameWorld = FP.world as GameWorld;
 			borders.drawBorders();
 		}
-		private function shittyCheckInput():void 
-		{
-			if (Input.check(Key.UP)) y -= speed;
-			if (Input.check(Key.DOWN)) y += speed;
-			if (Input.check(Key.RIGHT))x += speed;
-			if (Input.check(Key.LEFT))x -= speed;
-			
-			if (Input.pressed(Key.W))y -= 1;
-			if (Input.pressed(Key.S))y += 1;
-			if (Input.pressed(Key.D))x += 1;
-			if (Input.pressed(Key.A))x -= 1;
-			
-			if (Input.pressed(Key.DIGIT_1)) {
-				x = borders.vBorders[0].x;
-				y = borders.vBorders[0].y;
-			}
-		}
-		
+
 		override public function update():void 
 		{
-			borders.update(x, y);
-			drawing.update(x, y);
+			beginStepX = x;
+			beginStepY = y;
 			
 			if (Input.check(Key.CONTROL)) speed = 10;
 			else speed = 1;
@@ -92,8 +70,40 @@ package
 			
 			//ARE WE DRAWING?
 			if (Input.check(Key.SPACE)) {
-				//CAN MOVE "FREELY"
-				movement();
+				line.previousDirection.x = line.currentDirection.x;
+				line.previousDirection.y = line.currentDirection.y;
+				
+				move();
+				
+				borders.update(x, y);
+				
+				if (line.nodes.length <= 0)
+				{
+					if (!borders.isPLayerOnBorders) {
+						line.addNode(new Point(beginStepX, beginStepY));
+						line.borderPosition.push(borders.lastBorderA);
+						line.borderPosition.push(borders.lastBorderB);
+					}
+				}
+				else 
+				{
+					if (borders.isPLayerOnBorders) {
+						line.addNode(new Point(x, y));
+						line.borderPosition.push(borders.borderA);
+						line.borderPosition.push(borders.borderB);
+						line.addNodesToBorders();
+					}
+					
+					//did the cursor change direction?
+					if (line.previousDirection.x != line.currentDirection.x &&
+					line.previousDirection.y != line.currentDirection.y) 
+					{
+						line.addNode(new Point(beginStepX, beginStepY));
+					}
+					
+					
+					
+				}
 			}
 			else {
 				if (!borders.isPLayerOnBorders) {
@@ -112,26 +122,37 @@ package
 				+ "\non Vertex: " + borders.isPlayerOnVertex.toString()
 				+ "\non Border:" + borders.isPLayerOnBorders.toString() 
 				+ "\nborderA: " + borders.borderA.toString()
-				+ "\nborderB: " + borders.borderB.toString();
+				+ "\nborderB: " + borders.borderB.toString()
+				+ "\nlastBorderA: " + borders.lastBorderA.toString()
+				+ "\nlastBorderB: " + borders.lastBorderB.toString()
+				
 			super.update();
 		}
 		
-		private function movement():void
+		private function move():void
 		{
-			if (Input.check(Key.UP) 	&& drawing.canMoveUp) {
+			if (Input.check(Key.UP) 	&& line.canMoveUp) {
 				y -= speed;
+				line.currentDirection.y = -1;
+				line.currentDirection.x = 0;
 				return;
 			}
-			if (Input.check(Key.DOWN)	&& drawing.canMoveDown) {
+			if (Input.check(Key.DOWN)	&& line.canMoveDown) {
 				y += speed;
+				line.currentDirection.y = 1;
+				line.currentDirection.x = 0;
 				return;
 			}
-			if (Input.check(Key.RIGHT) 	&& drawing.canMoveRight) {
+			if (Input.check(Key.RIGHT) 	&& line.canMoveRight) {
 				x += speed;
+				line.currentDirection.y = 0;
+				line.currentDirection.x = 1;
 				return;
 			}
-			if (Input.check(Key.LEFT) 	&& drawing.canMoveLeft) {
+			if (Input.check(Key.LEFT) 	&& line.canMoveLeft) {
 				x -= speed;
+				line.currentDirection.y = 0;
+				line.currentDirection.x = -1;
 				return;
 			}
 		}
